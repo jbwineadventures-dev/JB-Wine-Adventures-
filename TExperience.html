@@ -669,6 +669,7 @@ footer {
   <div class="footer-note">The Tuscany Experience &nbsp;·&nbsp; September 2026</div>
 
 
+<form id="reg-form" onsubmit="event.preventDefault(); submitRegistration();">
 
 <!-- REGISTRATION MODAL -->
 <div id="reg-modal" style="display:none;position:fixed;inset:0;z-index:10000;background:rgba(28,26,24,0.95);overflow-y:auto;padding:2rem 1rem;-webkit-overflow-scrolling:touch;">
@@ -859,87 +860,25 @@ footer {
         </div>
       </div>
 
-      <!-- SUBMIT -->
-      <button type="button" onclick="submitRegistration()" style="display:block;width:100%;padding:1.1rem 2rem;background:#6B8F71;color:#FAFAF8;font-family:&#39;DM Sans&#39;,sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.3em;text-transform:uppercase;border:none;cursor:pointer;margin-top:0.5rem;">
-        Submit Registration
-      </button>
-      <p style="font-size:0.74rem;color:#7A756E;text-align:center;margin-top:0.8rem;">
-        Your form will be sent to <a href="mailto:jbwineadventures@gmail.com">JBWineAdventures@gmail.com</a>
-      </p>
+<!-- Hidden dietary field (required for backend) -->
+<input type="hidden" name="diet" id="diet_combined">
 
-    </div><!-- /padding div -->
-  </div><!-- /modal inner -->
-</div><!-- /reg-modal -->
+     <!-- SUBMIT BUTTON -->
+<button type="submit"
+  style="display:block;width:100%;padding:1.1rem 2rem;background:#6B8F71;color:#FAFAF8;
+         font-family:'DM Sans',sans-serif;font-size:0.72rem;font-weight:500;
+         letter-spacing:0.3em;text-transform:uppercase;border:none;cursor:pointer;
+         margin-top:0.5rem;">
+  Submit Registration
+</button>
 
-<script data-cfasync="false" src="file:///G:/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-function submitRegistration() {
-  var fields = {
-    'First Name': 'first_name', 'Last Name': 'last_name',
-    'Date of Birth': 'dob', 'Passport Number': 'passport',
-    'Email': 'email', 'Confirm Email': 'email_confirm',
-    'Phone': 'phone', 'Address': 'address',
-    'City': 'city', 'State': 'state', 'Zip': 'zip', 'Country': 'country',
-    'Emergency Contact Name': 'emerg_name', 'Emergency Phone': 'emerg_phone'
-  };
-  var missing = [];
-  for (var label in fields) {
-    var el = document.querySelector('[name="' + fields[label] + '"]');
-    if (el && !el.value.trim()) missing.push(label);
-  }
-  var email = document.querySelector('[name="email"]').value;
-  var emailConfirm = document.querySelector('[name="email_confirm"]').value;
-  if (email && emailConfirm && email !== emailConfirm) {
-    alert('Email addresses do not match. Please check and try again.');
-    return;
-  }
-  var checks = ['agree1','agree2','agree3','agree4'];
-  var unchecked = checks.filter(function(n){ return !document.querySelector('[name="'+n+'"]').checked; });
-  if (missing.length > 0) {
-    alert('Please complete the following required fields:\n\n' + missing.join('\n'));
-    return;
-  }
-  if (unchecked.length > 0) {
-    alert('Please agree to all terms in Section 5 before submitting.');
-    return;
-  }
-  // Build mailto body
-  var f = function(n){ var el=document.querySelector('[name="'+n+'"]'); return el ? el.value : ''; };
-  var diets = Array.from(document.querySelectorAll('[name="diet"]:checked')).map(function(e){return e.value;}).join(', ') || 'None specified';
-  var room = document.querySelector('[name="room"]:checked');
-  var body = encodeURIComponent(
-    'TUSCANY EXPERIENCE 2026 - GUEST REGISTRATION\n' +
-    '================================================\n\n' +
-    'GUEST INFORMATION\n' +
-    'Name: ' + f('first_name') + ' ' + f('last_name') + '\n' +
-    'Date of Birth: ' + f('dob') + '\n' +
-    'Passport No: ' + f('passport') + '\n' +
-    'Passport Expiry: ' + f('passport_expiry') + '\n' +
-    'Country of Issue: ' + f('passport_country') + '\n' +
-    'Address: ' + f('address') + ', ' + f('city') + ', ' + f('state') + ' ' + f('zip') + ', ' + f('country') + '\n' +
-    'Email: ' + f('email') + '\n' +
-    'Phone: ' + f('phone') + '\n' +
-    'Room: ' + (room ? room.value : 'Not selected') + '\n' +
-    'Sharing with: ' + (f('share_with') || 'N/A') + '\n\n' +
-    'EMERGENCY CONTACT\n' +
-    'Name: ' + f('emerg_name') + '\n' +
-    'Relationship: ' + f('emerg_rel') + '\n' +
-    'Phone: ' + f('emerg_phone') + '\n' +
-    'Email: ' + (f('emerg_email') || 'N/A') + '\n\n' +
-    'DIETARY & HEALTH\n' +
-    'Dietary: ' + diets + '\n' +
-    'Other: ' + (f('diet_other') || 'None') + '\n' +
-    'Mobility: ' + (f('mobility') || 'None') + '\n\n' +
-    'PAYMENT\n' +
-    'Trip price: $10,500 per person (double occupancy)\n' +
-    'Guest confirms payment schedule and non-refundable terms.\n\n' +
-    agreements confirmed by guest.'
-  );
-  window.location.href = 'mailto:jbwineadventures@gmail.com?subject=' +
-    encodeURIComponent('Tuscany 2026 Registration - ' + f('first_name') + ' ' + f('last_name')) +
-    '&body=' + body;
-}
-</script>
+<p style="font-size:0.74rem;color:#7A756E;text-align:center;margin-top:0.8rem;">
+  Your form will be sent to <a href="mailto:jbwineadventures@gmail.com">JBWineAdventures@gmail.com</a>
+</p>
 
+</form> <!-- ✔ Correct closing form tag -->
 
-
+</div><!-- /padding div -->
+</div><!-- /modal inner -->
+</div><!-- /reg-modal --> 
 </div></body></html>
