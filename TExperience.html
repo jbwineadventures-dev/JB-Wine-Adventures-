@@ -875,7 +875,6 @@ footer {
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb_Qx5EfDmu07pIcJgkK_0QT4HltWQIcV8llolkjgnpumIzEmJxHuJLSZ2zi51sopV/exec';
 
 function submitRegistration() {
-  // ── 1. Required field validation ──────────────────────────────────────────
   var requiredFields = {
     'First Name':             'first_name',
     'Last Name':              'last_name',
@@ -903,7 +902,6 @@ function submitRegistration() {
     return;
   }
 
-  // ── 2. Email match validation ─────────────────────────────────────────────
   var email        = document.querySelector('[name="email"]').value.trim();
   var emailConfirm = document.querySelector('[name="email_confirm"]').value.trim();
   if (email !== emailConfirm) {
@@ -911,7 +909,6 @@ function submitRegistration() {
     return;
   }
 
-  // ── 3. Agreement checkboxes ───────────────────────────────────────────────
   var unchecked = ['agree1','agree2','agree3','agree4'].filter(function(n) {
     return !document.querySelector('[name="' + n + '"]').checked;
   });
@@ -920,7 +917,6 @@ function submitRegistration() {
     return;
   }
 
-  // ── 4. Collect form data ──────────────────────────────────────────────────
   var f = function(n) {
     var el = document.querySelector('[name="' + n + '"]');
     return el ? el.value.trim() : '';
@@ -955,46 +951,35 @@ function submitRegistration() {
     mobility:         f('mobility')
   });
 
-  // ── 5. Disable button & show sending state ────────────────────────────────
   var btn = document.querySelector('#reg-modal button[type="button"]');
   var originalText = btn.textContent;
-  btn.textContent = 'Sending…';
+  btn.textContent = 'Sending...';
   btn.disabled = true;
 
-  // ── 6. POST to Google Apps Script ────────────────────────────────────────
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
+    mode: 'no-cors',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: payload.toString()
   })
-  .then(function(response) { return response.json(); })
-  .then(function(data) {
-    if (data.result === 'success') {
-      // Hide modal and show confirmation
-      document.getElementById('reg-modal').style.display = 'none';
-      var confirm = document.createElement('div');
-      confirm.style.cssText = [
-        'position:fixed','inset:0','background:rgba(45,31,61,0.92)',
-        'display:flex','align-items:center','justify-content:center',
-        'z-index:9999','padding:2rem'
-      ].join(';');
-      confirm.innerHTML =
-        '<div style="background:#FAFAF8;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;">' +
-          '<div style="font-size:2rem;margin-bottom:1rem;">🍷</div>' +
-          '<p style="font-family:\'Playfair Display\',serif;font-size:1.5rem;color:#2D1F3D;margin-bottom:0.8rem;">Registration Received</p>' +
-          '<p style="font-size:0.9rem;color:#4A4642;line-height:1.7;margin-bottom:1.5rem;">' +
-            'Thank you, ' + f('first_name') + '! Your registration has been submitted to JB Wine Adventures. ' +
-            'Payment instructions will be sent to <strong>' + email + '</strong> shortly.' +
-          '</p>' +
-          '<button onclick="this.closest(\'div[style]\').remove()" ' +
-            'style="background:#6B8F71;color:#FAFAF8;border:none;padding:0.8rem 2rem;' +
-            'font-family:\'DM Sans\',sans-serif;font-size:0.72rem;letter-spacing:0.3em;' +
-            'text-transform:uppercase;cursor:pointer;">Close</button>' +
-        '</div>';
-      document.body.appendChild(confirm);
-    } else {
-      throw new Error(data.error || 'Unknown error');
-    }
+  .then(function() {
+    document.getElementById('reg-modal').style.display = 'none';
+    var confirmDiv = document.createElement('div');
+    confirmDiv.style.cssText = 'position:fixed;inset:0;background:rgba(45,31,61,0.92);display:flex;align-items:center;justify-content:center;z-index:9999;padding:2rem;';
+    confirmDiv.innerHTML =
+      '<div style="background:#FAFAF8;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;">' +
+        '<div style="font-size:2rem;margin-bottom:1rem;">&#127863;</div>' +
+        '<p style="font-family:Playfair Display,serif;font-size:1.5rem;color:#2D1F3D;margin-bottom:0.8rem;">Registration Received</p>' +
+        '<p style="font-size:0.9rem;color:#4A4642;line-height:1.7;margin-bottom:1.5rem;">' +
+          'Thank you, ' + f('first_name') + '! Your registration has been submitted to JB Wine Adventures. ' +
+          'Payment instructions will be sent to <strong>' + email + '</strong> shortly.' +
+        '</p>' +
+        '<button onclick="this.parentElement.parentElement.remove()" ' +
+          'style="background:#6B8F71;color:#FAFAF8;border:none;padding:0.8rem 2rem;' +
+          'font-family:DM Sans,sans-serif;font-size:0.72rem;letter-spacing:0.3em;' +
+          'text-transform:uppercase;cursor:pointer;">Close</button>' +
+      '</div>';
+    document.body.appendChild(confirmDiv);
   })
   .catch(function(err) {
     alert('There was a problem submitting your registration. Please email us directly at jbwineadventures@gmail.com.\n\nError: ' + err.message);
