@@ -7,7 +7,7 @@
 
   <style>
     :root {
-      --purple: #2D1F3D;       /* Updated brand purple */
+      --purple: #2D1F3D;
       --soft-green: #a8c3a0;
       --earth: #c8b79b;
       --cement: #e0e0e0;
@@ -24,7 +24,6 @@
       line-height: 1.6;
     }
 
-    /* HEADER WITH LOGO LEFT + NAV RIGHT */
     header {
       background-color: var(--purple);
       color: var(--soft-green);
@@ -58,7 +57,6 @@
       text-decoration: underline;
     }
 
-    /* HERO IMAGE */
     .hero {
       width: 100%;
       height: 70vh;
@@ -86,6 +84,69 @@
 
     .btn:focus {
       outline: 3px solid var(--purple);
+      outline-offset: 3px;
+    }
+
+    /* TUSCANY SECTION */
+    .tuscany-section {
+      margin-top: 3rem;
+      background-color: var(--purple);
+      color: var(--text-light);
+      padding: 3rem 2.5rem;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tuscany-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, rgba(168,195,160,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .tuscany-section h2 {
+      color: var(--soft-green);
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.03em;
+    }
+
+    .tuscany-divider {
+      width: 60px;
+      height: 3px;
+      background-color: var(--earth);
+      margin: 0.75rem 0 1.5rem 0;
+      border: none;
+    }
+
+    .tuscany-section p {
+      font-size: 1.1rem;
+      line-height: 1.85;
+      max-width: 780px;
+      color: #f0ece6;
+    }
+
+    .tuscany-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      background-color: var(--earth);
+      color: var(--text-dark);
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+
+    .tuscany-link:hover {
+      background-color: #b8a08b;
+    }
+
+    .tuscany-link:focus {
+      outline: 3px solid var(--soft-green);
       outline-offset: 3px;
     }
 
@@ -138,6 +199,10 @@
       .hosts-container {
         flex-direction: column;
       }
+
+      .tuscany-section {
+        padding: 2rem 1.5rem;
+      }
     }
   </style>
 </head>
@@ -152,8 +217,7 @@
 
   <nav aria-label="Main navigation">
     <a href="index.html" aria-current="page">Home</a>
-    <a href="survey.html">Survey</a>
-    <a href="payment.html">Payment</a>
+    <a href="TExperience.html">Experience</a>
   </nav>
 </header>
 
@@ -161,14 +225,15 @@
 
 <main>
 
-  <h2>About the Experience</h2>
-  <p>[ Client description will be inserted here. ]</p>
-
-<div style="margin-top:2rem;">
-  <a href="TExperience.html" class="btn" aria-label="Go to the experience page">The Tuscany Experience</a>
-  <a href="survey.html" class="btn" aria-label="Go to the survey page" style="margin-left:1rem;">Take the Survey</a>
-  <a href="payment.html" class="btn" aria-label="Go to the payment page" style="margin-left:1rem;">Make a Payment</a>
-</div>
+  <!-- TUSCANY SECTION -->
+  <section class="tuscany-section" aria-labelledby="tuscany-heading">
+    <h2 id="tuscany-heading">The Tuscany Experience</h2>
+    <hr class="tuscany-divider">
+    <p>
+      Tuscany invites you into a world where time slows down and every moment tastes richer. Wander through sun‑drenched vineyards, sip world‑class wines crafted by generations of artisans, and savor meals that celebrate the heart of Italian hospitality. This experience blends culture, cuisine, and countryside charm into a journey that feels both luxurious and deeply personal. Tuscany isn't just a destination — it's a feeling you'll carry long after you return home.
+    </p>
+    <a href="TExperience.html" class="tuscany-link" aria-label="Learn more about the Tuscany Experience">Explore the Experience →</a>
+  </section>
 
   <!-- HOSTS SECTION -->
   <section class="hosts-section">
@@ -185,7 +250,7 @@
           JB Wine Adventures was founded by Joy Foster and Brian Muerle, a husband-and-wife team who have shared a passion for wine, travel, and exceptional experiences for over two decades. Their journey began with a serendipitous first Christmas together—each gifting the other the same vintage from Louis Jadot—a moment that set the tone for a life centered around discovery and connection.
         </p>
         <p>
-          Joy, a retired physician, and Brian, a retired industrial safety administrator, bring a thoughtful, detail-oriented approach to every experience they curate. Together, they have explored 27 countries across five continents, immersing themselves in the world’s most celebrated wine regions.
+          Joy, a retired physician, and Brian, a retired industrial safety administrator, bring a thoughtful, detail-oriented approach to every experience they curate. Together, they have explored 27 countries across five continents, immersing themselves in the world's most celebrated wine regions.
         </p>
         <p>
           Both WSET certified and passionate home cooks, Joy and Brian blend deep wine knowledge with a love of food, culture, and hospitality—creating elevated, intimate journeys designed for discerning travelers.
