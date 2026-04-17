@@ -872,12 +872,6 @@ footer {
 </div><!-- /reg-modal -->
 
 <script>
-// ─────────────────────────────────────────────────────────────────────────────
-// IMPORTANT: Replace the placeholder below with your deployed Google Apps
-// Script Web App URL. In Google Apps Script click:
-//   Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone
-// Then paste the URL here.
-// ─────────────────────────────────────────────────────────────────────────────
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb_Qx5EfDmu07pIcJgkK_0QT4HltWQIcV8llolkjgnpumIzEmJxHuJLSZ2zi51sopV/exec';
 
 function submitRegistration() {
@@ -962,7 +956,7 @@ function submitRegistration() {
   });
 
   // ── 5. Disable button & show sending state ────────────────────────────────
-  var btn = document.querySelector('button[onclick="submitRegistration()"]');
+  var btn = document.querySelector('#reg-modal button[type="button"]');
   var originalText = btn.textContent;
   btn.textContent = 'Sending…';
   btn.disabled = true;
