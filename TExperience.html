@@ -618,7 +618,7 @@ footer {
     <div class="contact-info">
       <strong>JB Wine Adventures LLC</strong><br>
       <a href="mailto:jbwineadventures@gmail.com">JBWineAdventures@gmail.com</a><br>
-      Joy Foster &amp; Brian Muerlé, WSET Certified
+      Joy Foster &amp; Brian Muerle, WSET Certified
     </div>
     <div class="cta-divider"></div>
     <p style="font-size:0.76rem;color:#A8C4A2;margin-bottom:0.5rem;">💳&nbsp; Visa &amp; Mastercard accepted</p>
@@ -871,72 +871,142 @@ footer {
   </div><!-- /modal inner -->
 </div><!-- /reg-modal -->
 
-<script data-cfasync="false" src="file:///G:/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// IMPORTANT: Replace the placeholder below with your deployed Google Apps
+// Script Web App URL. In Google Apps Script click:
+//   Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone
+// Then paste the URL here.
+// ─────────────────────────────────────────────────────────────────────────────
+var APPS_SCRIPT_URL = https://script.google.com/macros/s/AKfycbzb_Qx5EfDmu07pIcJgkK_0QT4HltWQIcV8llolkjgnpumIzEmJxHuJLSZ2zi51sopV/exec;
+
 function submitRegistration() {
-  var fields = {
-    'First Name': 'first_name', 'Last Name': 'last_name',
-    'Date of Birth': 'dob', 'Passport Number': 'passport',
-    'Email': 'email', 'Confirm Email': 'email_confirm',
-    'Phone': 'phone', 'Address': 'address',
-    'City': 'city', 'State': 'state', 'Zip': 'zip', 'Country': 'country',
-    'Emergency Contact Name': 'emerg_name', 'Emergency Phone': 'emerg_phone'
+  // ── 1. Required field validation ──────────────────────────────────────────
+  var requiredFields = {
+    'First Name':             'first_name',
+    'Last Name':              'last_name',
+    'Date of Birth':          'dob',
+    'Passport Number':        'passport',
+    'Email':                  'email',
+    'Confirm Email':          'email_confirm',
+    'Phone':                  'phone',
+    'Address':                'address',
+    'City':                   'city',
+    'State':                  'state',
+    'Zip':                    'zip',
+    'Country':                'country',
+    'Emergency Contact Name': 'emerg_name',
+    'Emergency Phone':        'emerg_phone'
   };
+
   var missing = [];
-  for (var label in fields) {
-    var el = document.querySelector('[name="' + fields[label] + '"]');
+  for (var label in requiredFields) {
+    var el = document.querySelector('[name="' + requiredFields[label] + '"]');
     if (el && !el.value.trim()) missing.push(label);
   }
-  var email = document.querySelector('[name="email"]').value;
-  var emailConfirm = document.querySelector('[name="email_confirm"]').value;
-  if (email && emailConfirm && email !== emailConfirm) {
-    alert('Email addresses do not match. Please check and try again.');
-    return;
-  }
-  var checks = ['agree1','agree2','agree3','agree4'];
-  var unchecked = checks.filter(function(n){ return !document.querySelector('[name="'+n+'"]').checked; });
   if (missing.length > 0) {
     alert('Please complete the following required fields:\n\n' + missing.join('\n'));
     return;
   }
+
+  // ── 2. Email match validation ─────────────────────────────────────────────
+  var email        = document.querySelector('[name="email"]').value.trim();
+  var emailConfirm = document.querySelector('[name="email_confirm"]').value.trim();
+  if (email !== emailConfirm) {
+    alert('Email addresses do not match. Please check and try again.');
+    return;
+  }
+
+  // ── 3. Agreement checkboxes ───────────────────────────────────────────────
+  var unchecked = ['agree1','agree2','agree3','agree4'].filter(function(n) {
+    return !document.querySelector('[name="' + n + '"]').checked;
+  });
   if (unchecked.length > 0) {
     alert('Please agree to all terms in Section 5 before submitting.');
     return;
   }
-  // Build mailto body
-  var f = function(n){ var el=document.querySelector('[name="'+n+'"]'); return el ? el.value : ''; };
-  var diets = Array.from(document.querySelectorAll('[name="diet"]:checked')).map(function(e){return e.value;}).join(', ') || 'None specified';
-  var room = document.querySelector('[name="room"]:checked');
-  var body = encodeURIComponent(
-    'TUSCANY EXPERIENCE 2026 - GUEST REGISTRATION\n' +
-    '================================================\n\n' +
-    'GUEST INFORMATION\n' +
-    'Name: ' + f('first_name') + ' ' + f('last_name') + '\n' +
-    'Date of Birth: ' + f('dob') + '\n' +
-    'Passport No: ' + f('passport') + '\n' +
-    'Passport Expiry: ' + f('passport_expiry') + '\n' +
-    'Country of Issue: ' + f('passport_country') + '\n' +
-    'Address: ' + f('address') + ', ' + f('city') + ', ' + f('state') + ' ' + f('zip') + ', ' + f('country') + '\n' +
-    'Email: ' + f('email') + '\n' +
-    'Phone: ' + f('phone') + '\n' +
-    'Room: ' + (room ? room.value : 'Not selected') + '\n' +
-    'Sharing with: ' + (f('share_with') || 'N/A') + '\n\n' +
-    'EMERGENCY CONTACT\n' +
-    'Name: ' + f('emerg_name') + '\n' +
-    'Relationship: ' + f('emerg_rel') + '\n' +
-    'Phone: ' + f('emerg_phone') + '\n' +
-    'Email: ' + (f('emerg_email') || 'N/A') + '\n\n' +
-    'DIETARY & HEALTH\n' +
-    'Dietary: ' + diets + '\n' +
-    'Other: ' + (f('diet_other') || 'None') + '\n' +
-    'Mobility: ' + (f('mobility') || 'None') + '\n\n' +
-    'PAYMENT\n' +
-    'Trip price: $10,500 per person (double occupancy)\n' +
-    'Guest confirms payment schedule and non-refundable terms.\n\n' +
-    agreements confirmed by guest.'
-  );
-  window.location.href = 'mailto:jbwineadventures@gmail.com?subject=' +
-    encodeURIComponent('Tuscany 2026 Registration - ' + f('first_name') + ' ' + f('last_name')) +
-    '&body=' + body;
+
+  // ── 4. Collect form data ──────────────────────────────────────────────────
+  var f = function(n) {
+    var el = document.querySelector('[name="' + n + '"]');
+    return el ? el.value.trim() : '';
+  };
+  var room  = document.querySelector('[name="room"]:checked');
+  var diets = Array.from(document.querySelectorAll('[name="diet"]:checked'))
+                   .map(function(e) { return e.value; }).join(', ') || 'None specified';
+
+  var payload = new URLSearchParams({
+    first_name:       f('first_name'),
+    last_name:        f('last_name'),
+    dob:              f('dob'),
+    passport:         f('passport'),
+    passport_expiry:  f('passport_expiry'),
+    passport_country: f('passport_country'),
+    address:          f('address'),
+    city:             f('city'),
+    state:            f('state'),
+    zip:              f('zip'),
+    country:          f('country'),
+    phone:            f('phone'),
+    email:            email,
+    email_confirm:    emailConfirm,
+    room:             room ? room.value : 'Not selected',
+    share_with:       f('share_with'),
+    emerg_name:       f('emerg_name'),
+    emerg_rel:        f('emerg_rel'),
+    emerg_phone:      f('emerg_phone'),
+    emerg_email:      f('emerg_email'),
+    diet:             diets,
+    diet_other:       f('diet_other'),
+    mobility:         f('mobility')
+  });
+
+  // ── 5. Disable button & show sending state ────────────────────────────────
+  var btn = document.querySelector('button[onclick="submitRegistration()"]');
+  var originalText = btn.textContent;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  // ── 6. POST to Google Apps Script ────────────────────────────────────────
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: payload.toString()
+  })
+  .then(function(response) { return response.json(); })
+  .then(function(data) {
+    if (data.result === 'success') {
+      // Hide modal and show confirmation
+      document.getElementById('reg-modal').style.display = 'none';
+      var confirm = document.createElement('div');
+      confirm.style.cssText = [
+        'position:fixed','inset:0','background:rgba(45,31,61,0.92)',
+        'display:flex','align-items:center','justify-content:center',
+        'z-index:9999','padding:2rem'
+      ].join(';');
+      confirm.innerHTML =
+        '<div style="background:#FAFAF8;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;">' +
+          '<div style="font-size:2rem;margin-bottom:1rem;">🍷</div>' +
+          '<p style="font-family:\'Playfair Display\',serif;font-size:1.5rem;color:#2D1F3D;margin-bottom:0.8rem;">Registration Received</p>' +
+          '<p style="font-size:0.9rem;color:#4A4642;line-height:1.7;margin-bottom:1.5rem;">' +
+            'Thank you, ' + f('first_name') + '! Your registration has been submitted to JB Wine Adventures. ' +
+            'Payment instructions will be sent to <strong>' + email + '</strong> shortly.' +
+          '</p>' +
+          '<button onclick="this.closest(\'div[style]\').remove()" ' +
+            'style="background:#6B8F71;color:#FAFAF8;border:none;padding:0.8rem 2rem;' +
+            'font-family:\'DM Sans\',sans-serif;font-size:0.72rem;letter-spacing:0.3em;' +
+            'text-transform:uppercase;cursor:pointer;">Close</button>' +
+        '</div>';
+      document.body.appendChild(confirm);
+    } else {
+      throw new Error(data.error || 'Unknown error');
+    }
+  })
+  .catch(function(err) {
+    alert('There was a problem submitting your registration. Please email us directly at jbwineadventures@gmail.com.\n\nError: ' + err.message);
+    btn.textContent = originalText;
+    btn.disabled = false;
+  });
 }
 </script>
 
