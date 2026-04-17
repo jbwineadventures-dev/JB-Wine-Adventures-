@@ -63,7 +63,7 @@
       text-decoration: underline;
     }
 
-    /* DROPDOWN */
+    /* DROPDOWN — click only, no hover trigger */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -99,6 +99,7 @@
       transform: rotate(180deg);
     }
 
+    /* Menu hidden by default; only shown via JS adding .open class */
     .dropdown-menu {
       display: none;
       position: absolute;
@@ -144,7 +145,7 @@
     .hero {
       width: 100%;
       height: 70vh;
-      background-image: url('main-image.jpg'); /* was main-image.jpg — corrected */
+      background-image: url('main-image.jpg');
       background-size: cover;
       background-position: center;
     }
@@ -310,16 +311,16 @@
     <a href="index.html" aria-current="page">Home</a>
     <a href="TExperience.html">Experience</a>
 
-    <!-- Payments Dropdown -->
+    <!-- Payments Dropdown — click only -->
     <div class="dropdown" id="paymentsDropdown">
       <button
         class="dropdown-btn"
         aria-haspopup="true"
         aria-expanded="false"
         aria-controls="payments-menu"
-        onclick="toggleDropdown()"
+        onclick="toggleDropdown(event)"
       >
-        Payments <span class="arrow">▼</span>
+        Payments <span class="arrow">&#9660;</span>
       </button>
       <div class="dropdown-menu" id="payments-menu" role="menu">
         <a href="https://square.link/u/KvuZkHtd" target="_blank" rel="noopener noreferrer" role="menuitem">Down Payment</a>
@@ -378,26 +379,27 @@
 </footer>
 
 <script>
-  function toggleDropdown() {
-    const dropdown = document.getElementById('paymentsDropdown');
-    const btn = dropdown.querySelector('.dropdown-btn');
-    const isOpen = dropdown.classList.toggle('open');
-    btn.setAttribute('aria-expanded', isOpen);
+  function toggleDropdown(event) {
+    event.stopPropagation();
+    var dropdown = document.getElementById('paymentsDropdown');
+    var btn = dropdown.querySelector('.dropdown-btn');
+    var isOpen = dropdown.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(isOpen));
   }
 
-  // Close dropdown when clicking outside
+  // Close when clicking anywhere outside
   document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('paymentsDropdown');
+    var dropdown = document.getElementById('paymentsDropdown');
     if (!dropdown.contains(e.target)) {
       dropdown.classList.remove('open');
       dropdown.querySelector('.dropdown-btn').setAttribute('aria-expanded', 'false');
     }
   });
 
-  // Keyboard accessibility: close on Escape
+  // Close on Escape key
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-      const dropdown = document.getElementById('paymentsDropdown');
+      var dropdown = document.getElementById('paymentsDropdown');
       dropdown.classList.remove('open');
       dropdown.querySelector('.dropdown-btn').setAttribute('aria-expanded', 'false');
     }
