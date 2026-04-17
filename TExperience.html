@@ -872,7 +872,7 @@ footer {
 </div><!-- /reg-modal -->
 
 <script>
-var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzb_Qx5EfDmu07pIcJgkK_0QT4HltWQIcV8llolkjgnpumIzEmJxHuJLSZ2zi51sopV/exec';
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx2n26msltgIn9QOB0Z1b9u_GumcxwaRc39mc-wtkpWB4AB7U3URHuJFBC0Gw-AYvzU/exec';
 
 function submitRegistration() {
   var requiredFields = {
@@ -925,31 +925,30 @@ function submitRegistration() {
   var diets = Array.from(document.querySelectorAll('[name="diet"]:checked'))
                    .map(function(e) { return e.value; }).join(', ') || 'None specified';
 
-  var payload = new URLSearchParams({
-    first_name:       f('first_name'),
-    last_name:        f('last_name'),
-    dob:              f('dob'),
-    passport:         f('passport'),
-    passport_expiry:  f('passport_expiry'),
-    passport_country: f('passport_country'),
-    address:          f('address'),
-    city:             f('city'),
-    state:            f('state'),
-    zip:              f('zip'),
-    country:          f('country'),
-    phone:            f('phone'),
-    email:            email,
-    email_confirm:    emailConfirm,
-    room:             room ? room.value : 'Not selected',
-    share_with:       f('share_with'),
-    emerg_name:       f('emerg_name'),
-    emerg_rel:        f('emerg_rel'),
-    emerg_phone:      f('emerg_phone'),
-    emerg_email:      f('emerg_email'),
-    diet:             diets,
-    diet_other:       f('diet_other'),
-    mobility:         f('mobility')
-  });
+  var formData = new FormData();
+  formData.append('first_name',       f('first_name'));
+  formData.append('last_name',        f('last_name'));
+  formData.append('dob',              f('dob'));
+  formData.append('passport',         f('passport'));
+  formData.append('passport_expiry',  f('passport_expiry'));
+  formData.append('passport_country', f('passport_country'));
+  formData.append('address',          f('address'));
+  formData.append('city',             f('city'));
+  formData.append('state',            f('state'));
+  formData.append('zip',              f('zip'));
+  formData.append('country',          f('country'));
+  formData.append('phone',            f('phone'));
+  formData.append('email',            email);
+  formData.append('email_confirm',    emailConfirm);
+  formData.append('room',             room ? room.value : 'Not selected');
+  formData.append('share_with',       f('share_with'));
+  formData.append('emerg_name',       f('emerg_name'));
+  formData.append('emerg_rel',        f('emerg_rel'));
+  formData.append('emerg_phone',      f('emerg_phone'));
+  formData.append('emerg_email',      f('emerg_email'));
+  formData.append('diet',             diets);
+  formData.append('diet_other',       f('diet_other'));
+  formData.append('mobility',         f('mobility'));
 
   var btn = document.querySelector('#reg-modal button[type="button"]');
   var originalText = btn.textContent;
@@ -959,8 +958,7 @@ function submitRegistration() {
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: payload.toString()
+    body: formData
   })
   .then(function() {
     document.getElementById('reg-modal').style.display = 'none';
