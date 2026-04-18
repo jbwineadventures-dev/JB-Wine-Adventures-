@@ -970,15 +970,27 @@ function submitRegistration() {
       '<div style="background:#FAFAF8;max-width:480px;width:100%;padding:3rem 2.5rem;text-align:center;">' +
         '<div style="font-size:2rem;margin-bottom:1rem;">&#127863;</div>' +
         '<p style="font-family:Playfair Display,serif;font-size:1.5rem;color:#2D1F3D;margin-bottom:0.8rem;">Registration Received</p>' +
-        '<p style="font-size:0.9rem;color:#4A4642;line-height:1.7;margin-bottom:1.5rem;">' +
-          'Thank you, ' + f('first_name') + '! Your registration has been submitted to JB Wine Adventures. ' +
-          'Payment instructions will be sent to <strong>' + email + '</strong> shortly.' +
-        '</p>' +
-        '<button onclick="this.parentElement.parentElement.remove()" ' +
-          'style="background:#6B8F71;color:#FAFAF8;border:none;padding:0.8rem 2rem;' +
-          'font-family:DM Sans,sans-serif;font-size:0.72rem;letter-spacing:0.3em;' +
-          'text-transform:uppercase;cursor:pointer;">Close</button>' +
-      '</div>';
+      
+	 '<p style="font-size:0.9rem;color:#4A4642;line-height:1.7;margin-bottom:1.2rem;">' +
+ 	 'Thank you, ' + f('first_name') + '! Your registration has been submitted to JB Wine Adventures. ' +
+ 	 'Payment instructions will also be sent to <strong>' + email + '</strong> shortly.' +
+	'</p>' +
+	'<div style="background:#EDE8F4;border-left:3px solid #7B5EA7;padding:1rem 1.2rem;margin-bottom:1.5rem;text-align:left;">' +
+ 	 '<p style="font-size:0.85rem;font-weight:600;color:#2D1F3D;margin:0 0 0.4rem;">&#128197; Secure Your Spot Now</p>' +
+ 	 '<p style="font-size:0.82rem;color:#4A4642;line-height:1.6;margin:0 0 0.9rem;">' +
+    'To confirm your place on the trip, please submit your <strong>$3,500 non-refundable deposit</strong> at your earliest convenience.' +
+	  '</p>' +
+ 	 '<a href="https://square.link/u/KvuZkHtd" target="_blank" rel="noopener noreferrer" ' +
+ 	   'style="display:inline-block;background:#6B8F71;color:#FAFAF8;text-decoration:none;' +
+ 	   'padding:0.75rem 1.5rem;font-family:DM Sans,sans-serif;font-size:0.72rem;' +
+ 	   'font-weight:500;letter-spacing:0.25em;text-transform:uppercase;">Pay Down Payment &#8594;</a>' +
+	'</div>' +
+	'<button onclick="this.parentElement.parentElement.remove()" ' +
+ 	 'style="background:transparent;color:#7A756E;border:1px solid #D4C9B8;padding:0.7rem 2rem;' +
+ 	 'font-family:DM Sans,sans-serif;font-size:0.72rem;letter-spacing:0.3em;' +
+ 	 'text-transform:uppercase;cursor:pointer;">Close</button>'
+   
+	 '</div>';
     document.body.appendChild(confirmDiv);
   })
   .catch(function(err) {
