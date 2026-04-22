@@ -27,7 +27,7 @@
     header {
       background-color: var(--purple);
       color: var(--soft-green);
-      padding: 1.5rem 2rem;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -41,7 +41,7 @@
     }
 
     .header-left img {
-      max-height: 100px;
+      max-height: 60px;
       width: auto;
     }
 
@@ -63,83 +63,7 @@
       text-decoration: underline;
     }
 
-    /* DROPDOWN — click only, no hover trigger */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-      margin: 0 1rem;
-    }
 
-    .dropdown-btn {
-      background: none;
-      border: none;
-      color: var(--text-light);
-      font-weight: bold;
-      font-size: 1rem;
-      font-family: var(--font-main);
-      cursor: pointer;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .dropdown-btn:hover,
-    .dropdown-btn:focus {
-      text-decoration: underline;
-      outline: none;
-    }
-
-    .dropdown-btn .arrow {
-      font-size: 0.7rem;
-      transition: transform 0.2s ease;
-    }
-
-    .dropdown.open .arrow {
-      transform: rotate(180deg);
-    }
-
-    /* Menu hidden by default; only shown via JS adding .open class */
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 0.75rem);
-      right: 0;
-      background-color: var(--purple);
-      border: 1px solid var(--soft-green);
-      border-radius: 6px;
-      min-width: 180px;
-      z-index: 100;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-      overflow: hidden;
-    }
-
-    .dropdown.open .dropdown-menu {
-      display: block;
-    }
-
-    .dropdown-menu a {
-      display: block;
-      margin: 0;
-      padding: 0.65rem 1.25rem;
-      color: var(--text-light);
-      text-decoration: none;
-      font-weight: normal;
-      font-size: 0.95rem;
-      border-bottom: 1px solid rgba(168,195,160,0.15);
-      transition: background-color 0.15s ease, color 0.15s ease;
-    }
-
-    .dropdown-menu a:last-child {
-      border-bottom: none;
-    }
-
-    .dropdown-menu a:hover,
-    .dropdown-menu a:focus {
-      background-color: rgba(168,195,160,0.15);
-      color: var(--soft-green);
-      text-decoration: none;
-    }
 
     /* HERO */
     .hero {
@@ -304,32 +228,13 @@
 <header>
   <div class="header-left">
     <img src="logo.jpg" alt="JB Wine Adventures logo">
-    <h1 style="margin: 0; font-size: 2.2rem;">JB Wine Adventures</h1>
+    <h1 style="margin: 0;">JB Wine Adventures</h1>
   </div>
 
   <nav aria-label="Main navigation">
     <a href="index.html" aria-current="page">Home</a>
     <a href="TExperience.html">Experience</a>
 
-    <!-- Payments Dropdown — click only -->
-    <div class="dropdown" id="paymentsDropdown">
-      <button
-        class="dropdown-btn"
-        aria-haspopup="true"
-        aria-expanded="false"
-        aria-controls="payments-menu"
-        onclick="toggleDropdown(event)"
-      >
-        Payments <span class="arrow">&#9660;</span>
-      </button>
-      <div class="dropdown-menu" id="payments-menu" role="menu">
-        <a href="https://square.link/u/KvuZkHtd" target="_blank" rel="noopener noreferrer" role="menuitem">Down Payment</a>
-        <a href="https://square.link/u/AG6P2Hlh" target="_blank" rel="noopener noreferrer" role="menuitem">2nd Payment</a>
-        <a href="https://square.link/u/wTyPshJf" target="_blank" rel="noopener noreferrer" role="menuitem">3rd Payment</a>
-        <a href="https://square.link/u/yieHB5yq" target="_blank" rel="noopener noreferrer" role="menuitem">Final Payment</a>
-        <a href="https://square.link/u/mJfhYCet" target="_blank" rel="noopener noreferrer" role="menuitem">Full Payment</a>
-      </div>
-    </div>
   </nav>
 </header>
 
@@ -379,31 +284,6 @@
 </footer>
 
 <script>
-  function toggleDropdown(event) {
-    event.stopPropagation();
-    var dropdown = document.getElementById('paymentsDropdown');
-    var btn = dropdown.querySelector('.dropdown-btn');
-    var isOpen = dropdown.classList.toggle('open');
-    btn.setAttribute('aria-expanded', String(isOpen));
-  }
-
-  // Close when clicking anywhere outside
-  document.addEventListener('click', function(e) {
-    var dropdown = document.getElementById('paymentsDropdown');
-    if (!dropdown.contains(e.target)) {
-      dropdown.classList.remove('open');
-      dropdown.querySelector('.dropdown-btn').setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      var dropdown = document.getElementById('paymentsDropdown');
-      dropdown.classList.remove('open');
-      dropdown.querySelector('.dropdown-btn').setAttribute('aria-expanded', 'false');
-    }
-  });
 </script>
 
 </body>
