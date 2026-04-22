@@ -846,6 +846,7 @@ footer {
           <label style="display:flex;align-items:flex-start;gap:0.6rem;font-size:0.84rem;color:#2A3D2E;cursor:pointer;"><input type="checkbox" name="agree2" required="" style="margin-top:0.2rem;flex-shrink:0;"> I have read and agree to the payment and cancellation terms above.</label>
           <label style="display:flex;align-items:flex-start;gap:0.6rem;font-size:0.84rem;color:#2A3D2E;cursor:pointer;"><input type="checkbox" name="agree3" required="" style="margin-top:0.2rem;flex-shrink:0;"> I understand all deposits are non-refundable.</label>
           <label style="display:flex;align-items:flex-start;gap:0.6rem;font-size:0.84rem;color:#2A3D2E;cursor:pointer;"><input type="checkbox" name="agree4" required="" style="margin-top:0.2rem;flex-shrink:0;"> I understand airfare is not included in the trip price.</label>
+          <label style="display:flex;align-items:flex-start;gap:0.6rem;font-size:0.84rem;color:#2A3D2E;cursor:pointer;"><input type="checkbox" name="agree5" required="" style="margin-top:0.2rem;flex-shrink:0;"> I agree to receive communications from JB Wine Adventures, including payment reminders, travel updates, newsletters, and announcements about future experiences.</label>
         </div>
       </div>
 
@@ -899,7 +900,7 @@ function submitRegistration() {
     return;
   }
 
-  var unchecked = ['agree1','agree2','agree3','agree4'].filter(function(n) {
+  var unchecked = ['agree1','agree2','agree3','agree4','agree5'].filter(function(n) {
     return !document.querySelector('[name="' + n + '"]').checked;
   });
   if (unchecked.length > 0) {
